@@ -2,6 +2,8 @@ package ie.wit.ufopedia.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.ufopedia.R
 import ie.wit.ufopedia.databinding.ActivityUfoBinding
@@ -21,6 +23,9 @@ class UfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbarAdd.title = title
+        setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
         i("UFO Activity started...")
@@ -43,5 +48,19 @@ class UfoActivity : AppCompatActivity() {
                     .show()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_ufo, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
