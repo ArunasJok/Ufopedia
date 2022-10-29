@@ -7,4 +7,6 @@
     <string name="menu_cancelUfo">Cancel</string>
     <string name="enter_ufo_title"> Please enter a title for UFO </string>
     <string name="save_ufo"> Save UFO Sighting </string>
+    <string name="button_addImage"> Add an image </string>
+    <string name="select_ufo_image">Select an image of UFO</string>
 </resources>

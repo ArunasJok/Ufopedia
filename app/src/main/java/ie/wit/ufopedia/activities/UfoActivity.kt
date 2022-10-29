@@ -1,12 +1,17 @@
 package ie.wit.ufopedia.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.wit.ufopedia.R
 import ie.wit.ufopedia.databinding.ActivityUfoBinding
+import ie.wit.ufopedia.helpers.showImagePicker
 import ie.wit.ufopedia.main.MainApp
 import ie.wit.ufopedia.models.UfoModel
 import timber.log.Timber
@@ -16,16 +21,16 @@ import timber.log.Timber.i
 class UfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUfoBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     var ufo = UfoModel()
     lateinit var app : MainApp
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var edit = false
         super.onCreate(savedInstanceState)
+        var edit = false
         binding = ActivityUfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
 
@@ -38,6 +43,9 @@ class UfoActivity : AppCompatActivity() {
             binding.ufoTitle.setText(ufo.title)
             binding.description.setText(ufo.description)
             binding.btnAdd.setText(R.string.save_ufo)
+            Picasso.get()
+                .load(ufo.image)
+                .into(binding.ufoImage)
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -56,7 +64,12 @@ class UfoActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
             }
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+            i("Select an image")
         }
+        registerImagePickerCallback()
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -71,5 +84,24 @@ class UfoActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            ufo.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(ufo.image)
+                                .into(binding.ufoImage)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }
