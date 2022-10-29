@@ -3,4 +3,5 @@
     <string name="button_addUfo">Add UFO Sighting</string>
     <string name="hint_ufoTitle">UFO Title</string>
     <string name="hint_ufoDescription">Description </string>
+    <string name="menu_addUfo">Add</string>
 </resources>
