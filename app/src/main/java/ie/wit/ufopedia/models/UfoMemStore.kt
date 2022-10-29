@@ -27,6 +27,7 @@ class UfoMemStore : UfoStore {
         if (foundUfo != null) {
             foundUfo.title = ufo.title
             foundUfo.description = ufo.description
+            foundUfo.image = ufo.image
             logAll()
         }
     }

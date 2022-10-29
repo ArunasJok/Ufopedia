@@ -1,6 +1,7 @@
 package ie.wit.ufopedia.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -46,6 +47,9 @@ class UfoActivity : AppCompatActivity() {
             Picasso.get()
                 .load(ufo.image)
                 .into(binding.ufoImage)
+            if (ufo.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_ufo_image)
+            }
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -98,6 +102,7 @@ class UfoActivity : AppCompatActivity() {
                             Picasso.get()
                                 .load(ufo.image)
                                 .into(binding.ufoImage)
+                            binding.chooseImage.setText(R.string.change_ufo_image)
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }

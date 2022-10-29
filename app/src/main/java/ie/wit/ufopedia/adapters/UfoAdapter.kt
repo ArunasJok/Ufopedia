@@ -3,6 +3,7 @@ package ie.wit.ufopedia.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.wit.ufopedia.databinding.CardUfoBinding
 import ie.wit.ufopedia.models.UfoModel
 
@@ -33,6 +34,7 @@ class UfoAdapter constructor(private var ufos: List<UfoModel>,
         fun bind(ufo: UfoModel, listener: UfoListener) {
             binding.ufoTitle.text = ufo.title
             binding.description.text = ufo.description
+            Picasso.get().load(ufo.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onUfoClick(ufo) }
         }
     }
