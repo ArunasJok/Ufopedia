@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.ufopedia.R
 import ie.wit.ufopedia.adapters.UfoAdapter
@@ -18,6 +20,7 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityUfoListBinding
+    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +35,15 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
         binding.recyclerView.layoutManager = layoutManager
         // binding.recyclerView.adapter = UfoAdapter(app.ufos)
         binding.recyclerView.adapter = UfoAdapter(app.ufos.findAll(),this)
+
+        registerRefreshCallback()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, UfoActivity::class.java)
-                startActivityForResult(launcherIntent,0)
+                refreshIntentLauncher.launch(launcherIntent)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -52,12 +57,13 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
     override fun onUfoClick(ufo: UfoModel) {
         val launcherIntent = Intent(this, UfoActivity::class.java)
         launcherIntent.putExtra("ufo_edit", ufo)
-        startActivityForResult(launcherIntent,0)
+        refreshIntentLauncher.launch(launcherIntent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun registerRefreshCallback() {
+        refreshIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { binding.recyclerView.adapter?.notifyDataSetChanged() }
     }
 }
 
