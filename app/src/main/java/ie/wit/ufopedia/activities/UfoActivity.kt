@@ -19,7 +19,9 @@ class UfoActivity : AppCompatActivity() {
     var ufo = UfoModel()
     lateinit var app : MainApp
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        var edit = false
         super.onCreate(savedInstanceState)
         binding = ActivityUfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,28 +33,31 @@ class UfoActivity : AppCompatActivity() {
         i("UFO Activity started...")
 
         if (intent.hasExtra("ufo_edit")) {
+            edit = true
             ufo = intent.extras?.getParcelable("ufo_edit")!!
             binding.ufoTitle.setText(ufo.title)
             binding.description.setText(ufo.description)
+            binding.btnAdd.setText(R.string.save_ufo)
         }
 
         binding.btnAdd.setOnClickListener() {
             ufo.title = binding.ufoTitle.text.toString()
             ufo.description = binding.description.text.toString()
-            if (ufo.title.isNotEmpty()) {
-                // app.ufos.add(ufo.copy())
-                app.ufos.create(ufo.copy())
-                i("Add button pressed: ${ufo}")
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar
-                    .make(it,"Please enter a title", Snackbar.LENGTH_LONG)
+            if (ufo.title.isEmpty()) {
+                Snackbar.make(it,R.string.enter_ufo_title, Snackbar.LENGTH_LONG)
                     .show()
+            } else {
+                if (edit) {
+                    app.ufos.update(ufo.copy())
+                } else {
+                    app.ufos.create(ufo.copy())
+                }
+            }
+            setResult(RESULT_OK)
+            finish()
             }
         }
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_ufo, menu)

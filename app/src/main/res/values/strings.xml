@@ -5,4 +5,6 @@
     <string name="hint_ufoDescription">Description </string>
     <string name="menu_addUfo">Add</string>
     <string name="menu_cancelUfo">Cancel</string>
+    <string name="enter_ufo_title"> Please enter a title for UFO </string>
+    <string name="save_ufo"> Save UFO Sighting </string>
 </resources>
