@@ -30,15 +30,19 @@ class UfoActivity : AppCompatActivity() {
         app = application as MainApp
         i("UFO Activity started...")
 
+        if (intent.hasExtra("ufo_edit")) {
+            ufo = intent.extras?.getParcelable("ufo_edit")!!
+            binding.ufoTitle.setText(ufo.title)
+            binding.description.setText(ufo.description)
+        }
+
         binding.btnAdd.setOnClickListener() {
             ufo.title = binding.ufoTitle.text.toString()
             ufo.description = binding.description.text.toString()
             if (ufo.title.isNotEmpty()) {
-                app.ufos.add(ufo.copy())
+                // app.ufos.add(ufo.copy())
+                app.ufos.create(ufo.copy())
                 i("Add button pressed: ${ufo}")
-                for (i in app.ufos.indices)
-                    { i("UFO[$i]:${this.app.ufos[i]}, ")
-                }
                 setResult(RESULT_OK)
                 finish()
             }

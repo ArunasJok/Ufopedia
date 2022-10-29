@@ -8,11 +8,13 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.ufopedia.R
 import ie.wit.ufopedia.adapters.UfoAdapter
+import ie.wit.ufopedia.adapters.UfoListener
 import ie.wit.ufopedia.databinding.ActivityUfoListBinding
 import ie.wit.ufopedia.main.MainApp
+import ie.wit.ufopedia.models.UfoModel
 
 
-class UfoListActivity : AppCompatActivity() {
+class UfoListActivity : AppCompatActivity(), UfoListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityUfoListBinding
@@ -28,7 +30,8 @@ class UfoListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = UfoAdapter(app.ufos)
+        // binding.recyclerView.adapter = UfoAdapter(app.ufos)
+        binding.recyclerView.adapter = UfoAdapter(app.ufos.findAll(),this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -44,6 +47,12 @@ class UfoListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onUfoClick(ufo: UfoModel) {
+        val launcherIntent = Intent(this, UfoActivity::class.java)
+        launcherIntent.putExtra("ufo_edit", ufo)
+        startActivityForResult(launcherIntent,0)
     }
 }
 

@@ -1,0 +1,7 @@
+package ie.wit.ufopedia.models
+
+interface UfoStore {
+    fun findAll(): List<UfoModel>
+    fun create(ufo: UfoModel)
+    fun update(ufo: UfoModel)
+}
