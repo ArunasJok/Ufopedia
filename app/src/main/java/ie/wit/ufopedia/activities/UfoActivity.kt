@@ -14,6 +14,7 @@ import ie.wit.ufopedia.R
 import ie.wit.ufopedia.databinding.ActivityUfoBinding
 import ie.wit.ufopedia.helpers.showImagePicker
 import ie.wit.ufopedia.main.MainApp
+import ie.wit.ufopedia.models.Location
 import ie.wit.ufopedia.models.UfoModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -23,7 +24,9 @@ class UfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUfoBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var ufo = UfoModel()
+    var location = Location(52.245696, -7.139102, 15f)
     lateinit var app : MainApp
 
 
@@ -72,7 +75,16 @@ class UfoActivity : AppCompatActivity() {
             showImagePicker(imageIntentLauncher)
             i("Select an image")
         }
+        binding.ufoLocation.setOnClickListener {
+            i ("Set location pressed")
+        }
+        binding.ufoLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
         registerImagePickerCallback()
+        registerMapCallback()
     }
 
 
@@ -103,6 +115,23 @@ class UfoActivity : AppCompatActivity() {
                                 .load(ufo.image)
                                 .into(binding.ufoImage)
                             binding.chooseImage.setText(R.string.change_ufo_image)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            location = result.data!!.extras?.getParcelable("location")!!
+                            i("Location == $location")
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
