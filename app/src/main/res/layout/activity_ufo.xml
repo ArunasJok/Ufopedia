@@ -111,6 +111,7 @@
                     android:text="@string/button_addUfo"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
+
             </LinearLayout>
         </ScrollView>
 

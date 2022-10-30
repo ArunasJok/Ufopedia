@@ -100,6 +100,12 @@ class UfoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_cancel -> {
+                i("Cancel pressed")
+                finish()
+            }
+            R.id.item_delete -> {
+                i("Delete pressed")
+                app.ufos.delete(ufo.copy())
                 finish()
             }
         }

@@ -12,4 +12,5 @@
     <string name="change_ufo_image">Change UFO image</string>
     <string name="button_location">Location of sighting</string>
     <string name="title_activity_map">Map</string>
+    <string name="menu_deleteUfo">Cancel</string>
 </resources>

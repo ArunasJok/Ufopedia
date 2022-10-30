@@ -54,6 +54,11 @@ class UfoJSONStore(private val context: Context) : UfoStore {
         }
     }
 
+    override fun delete(ufo: UfoModel) {
+        ufos.remove(ufo)
+        serialize()
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(ufos, listType)
         write(context, JSON_FILE, jsonString)

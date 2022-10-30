@@ -38,4 +38,8 @@ class UfoMemStore : UfoStore {
     private fun logAll() {
         ufos.forEach { i("$it") }
     }
+
+    override fun delete(ufo: UfoModel) {
+        ufos.remove(ufo)
+    }
 }
