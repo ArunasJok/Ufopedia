@@ -46,6 +46,10 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
                 val launcherIntent = Intent(this, UfoActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
+            R.id.item_donate -> {
+                val launcherIntent = Intent(this, Donate::class.java)
+                refreshIntentLauncher.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

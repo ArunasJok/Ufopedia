@@ -98,7 +98,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"/>
 
-
                 <Button
                     android:id="@+id/btnAdd"
                     android:layout_width="match_parent"

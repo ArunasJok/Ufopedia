@@ -33,5 +33,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.UfoActivity" />
+
+        <activity android:name=".activities.Donate" />
+
+        <activity android:name=".activities.Report" />
     </application>
 </manifest>
