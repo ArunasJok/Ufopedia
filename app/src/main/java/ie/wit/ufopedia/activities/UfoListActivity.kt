@@ -33,9 +33,10 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        // binding.recyclerView.adapter = UfoAdapter(app.ufos)
-        binding.recyclerView.adapter = UfoAdapter(app.ufos.findAll(),this)
 
+        // binding.recyclerView.adapter = UfoAdapter(app.ufos)
+        // binding.recyclerView.adapter = UfoAdapter(app.ufos.findAll(),this)
+        loadUfos()
         registerRefreshCallback()
     }
 
@@ -63,7 +64,16 @@ class UfoListActivity : AppCompatActivity(), UfoListener {
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+            { loadUfos() }
+    }
+
+    private fun loadUfos() {
+        showUfos(app.ufos.findAll())
+    }
+
+    fun showUfos (ufos: List<UfoModel>) {
+        binding.recyclerView.adapter = UfoAdapter(ufos, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 
