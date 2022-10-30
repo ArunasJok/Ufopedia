@@ -26,7 +26,7 @@ class UfoActivity : AppCompatActivity() {
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var ufo = UfoModel()
-    var location = Location(52.245696, -7.139102, 15f)
+    // var location = Location(52.245696, -7.139102, 15f)
     lateinit var app : MainApp
 
 
@@ -77,8 +77,12 @@ class UfoActivity : AppCompatActivity() {
         }
         binding.ufoLocation.setOnClickListener {
             i ("Set location pressed")
-        }
-        binding.ufoLocation.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            if (ufo.zoom != 0f) {
+                location.lat =  ufo.lat
+                location.lng = ufo.lng
+                location.zoom = ufo.zoom
+            }
             val launcherIntent = Intent(this, MapActivity::class.java)
                 .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
@@ -130,8 +134,11 @@ class UfoActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Location ${result.data.toString()}")
-                            location = result.data!!.extras?.getParcelable("location")!!
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             i("Location == $location")
+                            ufo.lat = location.lat
+                            ufo.lng = location.lng
+                            ufo.zoom = location.zoom
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
