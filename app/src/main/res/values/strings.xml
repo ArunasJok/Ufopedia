@@ -35,4 +35,7 @@
     <string name="nav_header_title">UFOpedia</string>
     <string name="nav_header_subtitle">madmodule@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="action_ufoList">List of UFOs</string>
+
+
 </resources>

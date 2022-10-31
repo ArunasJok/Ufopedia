@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/ufoListFragment"
+            android:icon="@android:drawable/ic_dialog_info"
+            android:title="@string/action_ufoList" />
+        <item
             android:id="@+id/donateFragment"
             android:icon="@drawable/ic_menu_donate"
             android:title="@string/action_donate" />
